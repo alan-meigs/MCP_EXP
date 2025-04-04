@@ -161,6 +161,62 @@ python client.py weather.py
    - Use weather-related queries to get weather information
    - Example: "What's the weather in California?" or "Are there any alerts in New York?"
 
+## Using with Cursor's Agent Mode
+
+This MCP server can be integrated directly with Cursor's Agent mode (Note: This is different from Cursor's Ask feature and only works in Agent mode). Here's how to set it up:
+
+### Adding the MCP Server to Cursor
+
+1. Open Cursor Settings
+2. Navigate to `Features` > `MCP`
+3. Click `+ Add New MCP Server`
+4. Fill out the form:
+   - **Type**: Select `stdio`
+   - **Name**: "Weather Service" (or any name you prefer)
+   - **Command**: Enter the full path to run the weather server:
+     ```bash
+     python /full/path/to/your/weather.py
+     ```
+
+### Alternative: Project-Specific Configuration
+
+You can also configure the MCP server for your project by creating a `.cursor/mcp.json` file:
+
+1. Create the `.cursor` directory in your project root:
+```bash
+mkdir .cursor
+```
+
+2. Create `mcp.json` with the following content:
+```json
+{
+  "mcpServers": {
+    "weather": {
+      "command": "python",
+      "args": [
+        "/full/path/to/your/weather.py"
+      ]
+    }
+  }
+}
+```
+
+### Using the Weather Tools
+
+1. Open Cursor's Composer (Agent mode)
+2. The Agent will automatically detect when weather information is needed
+3. Example queries:
+   - "What's the current weather in San Francisco?"
+   - "Are there any weather alerts in California?"
+   - "Get me the forecast for New York City"
+
+### Important Notes
+
+- Tools are only available in Cursor's Agent mode (Composer), not in Ask mode
+- By default, Cursor will ask for approval before using MCP tools
+- You may need to click the refresh button in the MCP settings to see newly added tools
+- The server must be running on your local machine (remote servers require SSE transport)
+
 ## Features
 
 - Real-time chat interface with OpenAI integration
