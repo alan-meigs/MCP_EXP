@@ -21,7 +21,7 @@ from mcp.client.stdio import stdio_client
 # Load environment variables from .env file
 # This is where we store sensitive information like API keys
 load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.getenv("ALAN_API_KEY")
 
 class MCPClient:
     """
@@ -240,8 +240,11 @@ async def main():
     5. Ensures proper cleanup
     """
     # Check if a server script was provided
+    # This program expects to run the client and any additional servers so the expected run script is :
+    # uv run client.py path/to/server.py path/to/additional/server.py
     if len(sys.argv) < 2:
-        print("Usage: python client.py path/to/server.py")
+        print("Usage: uv run client.py path/to/server.py path/to/additional/server.py")
+        print("Example: uv run client.py server.py additional_server.py")
         sys.exit(1)
 
     # Create the client
@@ -255,6 +258,6 @@ async def main():
         await client.cleanup()
 
 # Run the main function when this script is executed
-if __name__ == "__main__":
+if __name__ == "__main__":#
     # asyncio.run() is needed to run async code in the main thread
     asyncio.run(main())
